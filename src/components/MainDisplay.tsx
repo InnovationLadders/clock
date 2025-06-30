@@ -43,7 +43,7 @@ const MainDisplay: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60" />
 
         {/* المحتوى في وضع الطول */}
-        <div className="relative z-10 flex flex-col h-screen overflow-y-auto">
+        <div className="relative z-10 flex flex-col h-screen">
           {/* اسم المسجد */}
           <div className="text-center py-4 md:py-6">
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 drop-shadow-2xl" style={{ fontFamily: 'Amiri, serif' }}>
@@ -92,7 +92,7 @@ const MainDisplay: React.FC = () => {
           </div>
 
           {/* الأدعية والإعلانات - تحت بعضها البعض */}
-          <div className="flex-1 px-4 mb-4 md:mb-6 space-y-3 md:space-y-4">
+          <div className="flex-1 px-4 pb-24 md:pb-28 space-y-3 md:space-y-4 overflow-y-auto">
             {/* الأدعية */}
             <div className="h-32 md:h-40 lg:h-48">
               <DuasPanel duas={settings.duas} settings={settings} />
@@ -106,7 +106,7 @@ const MainDisplay: React.FC = () => {
 
           {/* شريط أوقات الصلاة */}
           {prayerTimes && (
-            <div className="bg-black/40 backdrop-blur-sm border-t border-white/20 py-3 md:py-4">
+            <div className="absolute bottom-0 left-0 right-0 bg-black/40 backdrop-blur-sm border-t border-white/20 py-3 md:py-4">
               <div className="grid grid-cols-5 gap-1 md:gap-2 px-4">
                 {[
                   { name: 'الفجر', time: prayerTimes.fajr, delay: settings.iqamahDelays.fajr },
@@ -164,7 +164,7 @@ const MainDisplay: React.FC = () => {
       </div>
 
       {/* المحتوى الرئيسي */}
-      <div className="relative z-10 flex flex-1 px-4 md:px-6 lg:px-8 pb-24 md:pb-28 lg:pb-32 overflow-y-auto">
+      <div className="relative z-10 flex flex-1 px-4 md:px-6 lg:px-8 pb-40 md:pb-44 lg:pb-48">
         {/* الأدعية - الجانب الأيمن */}
         <div className="w-1/4 pr-2 md:pr-3 lg:pr-4">
           <DuasPanel duas={settings.duas} settings={settings} />
