@@ -8,13 +8,21 @@ import DuasPanel from './DuasPanel';
 import AnnouncementsPanel from './AnnouncementsPanel';
 
 const MainDisplay: React.FC = () => {
+  console.log('MainDisplay component entered');
+  
   const currentTime = useCurrentTime();
   const { prayerTimes, settings } = usePrayerTimes();
+
+  console.log('MainDisplay - Prayer times and settings:', { prayerTimes, settings });
 
   const nextPrayer = prayerTimes ? getNextPrayer(prayerTimes, settings) : null;
   const isPortrait = settings.displayMode === 'portrait';
 
+  console.log('MainDisplay - Next prayer:', nextPrayer);
+  console.log('MainDisplay - Display mode:', settings.displayMode, 'isPortrait:', isPortrait);
+
   if (isPortrait) {
+    console.log('Rendering in portrait mode');
     // تحديد الأنماط للوضع الطولي
     const containerStyle = {
       width: '100vh',
@@ -141,6 +149,7 @@ const MainDisplay: React.FC = () => {
     );
   }
 
+  console.log('Rendering in landscape mode');
   // وضع العرض الأفقي (الافتراضي)
   return (
     <div className="min-h-screen text-white relative overflow-hidden">

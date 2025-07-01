@@ -6,22 +6,25 @@ import { setupDailyCleanup } from './utils/storage';
 import { Settings as SettingsIcon, Maximize, Minimize } from 'lucide-react';
 
 const MainApp: React.FC = () => {
+  console.log('MainApp component entered');
+  
   const [showSettings, setShowSettings] = useState(false);
   const [settingsKey, setSettingsKey] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const navigate = useNavigate();
 
-  // إضافة سجل وحدة التحكم لفحص الحالة
   console.log('MainApp render - showSettings:', showSettings);
   console.log('MainApp render - isFullscreen:', isFullscreen);
 
   useEffect(() => {
+    console.log('MainApp useEffect - setupDailyCleanup starting');
     // إعداد تنظيف الذاكرة اليومي
     setupDailyCleanup();
-    console.log('MainApp mounted - setupDailyCleanup completed');
+    console.log('MainApp useEffect - setupDailyCleanup completed');
   }, []);
 
   useEffect(() => {
+    console.log('MainApp useEffect - fullscreen listener setup starting');
     // مراقبة تغييرات وضع ملء الشاشة
     const handleFullscreenChange = () => {
       const newFullscreenState = !!document.fullscreenElement;
@@ -58,7 +61,7 @@ const MainApp: React.FC = () => {
     }
   };
 
-  console.log('About to render - showSettings:', showSettings);
+  console.log('MainApp - About to render, showSettings state:', showSettings);
 
   if (showSettings) {
     console.log('Rendering Settings component');
@@ -73,7 +76,7 @@ const MainApp: React.FC = () => {
     );
   }
 
-  console.log('Rendering MainDisplay with controls');
+  console.log('Rendering MainDisplay component with controls');
 
   return (
     <div className="relative">
