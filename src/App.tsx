@@ -11,33 +11,46 @@ const MainApp: React.FC = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const navigate = useNavigate();
 
+  // إضافة سجل وحدة التحكم لفحص الحالة
+  console.log('MainApp render - showSettings:', showSettings);
+  console.log('MainApp render - isFullscreen:', isFullscreen);
+
   useEffect(() => {
     // إعداد تنظيف الذاكرة اليومي
     setupDailyCleanup();
+    console.log('MainApp mounted - setupDailyCleanup completed');
   }, []);
 
   useEffect(() => {
     // مراقبة تغييرات وضع ملء الشاشة
     const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
+      const newFullscreenState = !!document.fullscreenElement;
+      console.log('Fullscreen change detected:', newFullscreenState);
+      setIsFullscreen(newFullscreenState);
     };
 
     document.addEventListener('fullscreenchange', handleFullscreenChange);
+    console.log('Fullscreen event listener added');
     
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      console.log('Fullscreen event listener removed');
     };
   }, []);
 
   const handleSettingsChange = () => {
+    console.log('Settings changed, updating key');
     setSettingsKey(prev => prev + 1);
   };
 
   const toggleFullscreen = async () => {
+    console.log('Toggle fullscreen clicked, current state:', isFullscreen);
     try {
       if (document.fullscreenElement) {
+        console.log('Exiting fullscreen...');
         await document.exitFullscreen();
       } else {
+        console.log('Entering fullscreen...');
         await document.documentElement.requestFullscreen();
       }
     } catch (error) {
@@ -45,14 +58,22 @@ const MainApp: React.FC = () => {
     }
   };
 
+  console.log('About to render - showSettings:', showSettings);
+
   if (showSettings) {
+    console.log('Rendering Settings component');
     return (
       <Settings
-        onBack={() => setShowSettings(false)}
+        onBack={() => {
+          console.log('Settings onBack called');
+          setShowSettings(false);
+        }}
         onSettingsChange={handleSettingsChange}
       />
     );
   }
+
+  console.log('Rendering MainDisplay with controls');
 
   return (
     <div className="relative">
@@ -65,6 +86,7 @@ const MainApp: React.FC = () => {
           onClick={toggleFullscreen}
           className="p-3 bg-black/30 hover:bg-black/50 backdrop-blur-sm rounded-full border border-white/20 transition-all duration-300"
           title={isFullscreen ? "الخروج من ملء الشاشة" : "ملء الشاشة"}
+          style={{ display: 'block' }} // إضافة style صريح للتأكد من الظهور
         >
           {isFullscreen ? (
             <Minimize className="w-6 h-6 text-white" />
@@ -75,18 +97,31 @@ const MainApp: React.FC = () => {
 
         {/* زر الإعدادات */}
         <button
-          onClick={() => setShowSettings(true)}
+          onClick={() => {
+            console.log('Settings button clicked');
+            setShowSettings(true);
+          }}
           className="p-3 bg-black/30 hover:bg-black/50 backdrop-blur-sm rounded-full border border-white/20 transition-all duration-300"
           title="الإعدادات"
+          style={{ display: 'block' }} // إضافة style صريح للتأكد من الظهور
         >
           <SettingsIcon className="w-6 h-6 text-white" />
         </button>
+      </div>
+
+      {/* عنصر اختبار مرئي */}
+      <div 
+        className="fixed top-20 left-4 bg-red-500 text-white p-2 rounded z-50"
+        style={{ fontSize: '12px' }}
+      >
+        Debug: showSettings={showSettings.toString()}, isFullscreen={isFullscreen.toString()}
       </div>
     </div>
   );
 };
 
 function App() {
+  console.log('App component rendering');
   return (
     <Router>
       <Routes>
